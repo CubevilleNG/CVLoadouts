@@ -27,6 +27,7 @@ public class GiveLoadoutItemToPlayer extends BaseCommand {
         addBaseParameter(new CommandParameterInteger());
         addParameter("team", true, new CommandParameterString());
         addParameter("player", true, new CommandParameterOnlinePlayer());
+        addParameter("slot", true, new CommandParameterInteger());
         addFlag("exclusive");
         addFlag("sound");
         addFlag("take");
@@ -46,6 +47,11 @@ public class GiveLoadoutItemToPlayer extends BaseCommand {
         
         String team = "main";
         if(parameters.containsKey("team")) team = (String) parameters.get("team");
+
+        Integer itemSlot = -1;
+        if (parameters.containsKey("slot")) {
+            itemSlot = (int) parameters.get("slot");
+        }
         
         if(playerInv == null) throw new CommandExecutionException("&cNeed player argument if run from console.");
         
@@ -57,7 +63,7 @@ public class GiveLoadoutItemToPlayer extends BaseCommand {
             
         }
         else {
-            if(!LoadoutHandler.giveLoadoutItemToPlayer(playerInv, loadout, team, loadoutIndex, flags.contains("exclusive")))
+            if(!LoadoutHandler.giveLoadoutItemToPlayer(playerInv, loadout, team, loadoutIndex, flags.contains("exclusive"), itemSlot))
                 throw new CommandExecutionException("&cSub Loadout &6" + parameters.get("team") + "&c does not exist for &6" + baseParameters.get(0));
         }
         

@@ -20,14 +20,17 @@ public class LoadoutHandler {
         return item;
     }
 
-    public static boolean giveLoadoutItemToPlayer(Player player, LoadoutContainer lc, String name, int index, boolean exclusive) {
+    public static boolean giveLoadoutItemToPlayer(Player player, LoadoutContainer lc, String name, int index, boolean exclusive, int itemSlot) {
         if(lc.getInventory(name) == null) return false;
 
         Inventory inventory = lc.getInventory(name);
-
         Inventory playerInventory = player.getInventory();
-        int freeSlot = playerInventory.firstEmpty();
-        if(freeSlot == -1) throw new RuntimeException("No free slot in player's inventory");
+
+        int slot = itemSlot;
+        if (slot == -1) {
+            slot = playerInventory.firstEmpty();
+            if (slot == -1) throw new RuntimeException("No free slot in player's inventory");
+        }
 
         ItemStack item = inventory.getItem(index);
         if(item == null) return true;
@@ -36,7 +39,7 @@ public class LoadoutHandler {
             if(playerInventory.containsAtLeast(item, 1)) return true;
         }
         
-        playerInventory.setItem(freeSlot, item);
+        playerInventory.setItem(slot, item);
 
         return true;
     }
