@@ -5,6 +5,7 @@ import org.bukkit.block.Sign;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 import org.cubeville.commons.utils.PlayerUtils;
 import org.cubeville.cvloadouts.CVLoadouts;
 
@@ -85,6 +86,51 @@ public class LoadoutHandler {
         List<String> subLoadoutNames = new ArrayList<>();
         subLoadoutNames.add(subloadoutName);
         return applyLoadoutToPlayer(player, lc, subLoadoutNames);
+    }
+
+    public static boolean takeLoadoutFromPlayer(Player player, LoadoutContainer lc, String subloadoutName) {
+        List<String> subLoadoutNames = new ArrayList<>();
+        subLoadoutNames.add(subloadoutName);
+        return takeLoadoutFromPlayer(player, lc, subLoadoutNames);
+    }
+
+    public static boolean takeLoadoutFromPlayer(Player player, LoadoutContainer lc, List<String> subloadoutNames) {
+        List<Inventory> subInventories = new ArrayList<>();
+        for(String subloadoutName : subloadoutNames) {
+            if(lc.getInventory(subloadoutName) != null) {
+                subInventories.add(lc.getInventory(subloadoutName));
+            } else {
+                return false;
+            }
+        }
+        Inventory baseInventory = lc.getMainInventory();
+        PlayerInventory playerInventory = player.getInventory();
+
+        //inventory
+        for (int i = 0; i < 36; i++) {
+            ItemStack item = getLoadoutItemAtIndex(lc, baseInventory, subInventories, i);
+            if(item == null || item.getType() != Material.BARRIER) {
+                playerInventory.remove(item);
+            }
+        }
+        //offhand
+        ItemStack offhandItem = getLoadoutItemAtIndex(lc, baseInventory, subInventories, 49);
+        if(offhandItem == null || offhandItem.getType() != Material.BARRIER) {
+            playerInventory.setItemInOffHand(null);
+        }
+        //armour
+        int x = 45;
+        for (int i = 39; i >= 36; i--) {
+            ItemStack armourItem = getLoadoutItemAtIndex(lc, baseInventory, subInventories, x);
+            if(armourItem == null || armourItem.getType() != Material.BARRIER) {
+                playerInventory.setItem(i, null);
+            }
+            x++;
+        }
+        //Update Inventory
+        player.updateInventory();
+
+        return true;
     }
 
     private static ItemStack getLoadoutItemAtIndex(LoadoutContainer lc, Inventory baseInventory, List<Inventory> subInventories, int Index) {
