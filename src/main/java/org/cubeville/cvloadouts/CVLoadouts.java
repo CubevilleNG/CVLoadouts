@@ -45,6 +45,7 @@ public class CVLoadouts extends JavaPlugin {
         commandParser = new CommandParser();
         commandParser.addCommand(new GiveLoadoutItemToPlayer());
         commandParser.addCommand(new LoadoutApply());
+        commandParser.addCommand(new LoadoutTake());
         commandParser.addCommand(new LoadoutCreate());
         commandParser.addCommand(new LoadoutClone());
         commandParser.addCommand(new LoadoutEdit());
