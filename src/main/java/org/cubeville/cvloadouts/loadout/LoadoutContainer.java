@@ -129,10 +129,12 @@ public class LoadoutContainer implements ConfigurationSerializable {
 		inventories.remove(teamName.toLowerCase());
 	}
     
-    public void createInventory(Player player, String teamName) {
+    public boolean createInventory(Player player, String teamName) {
+        if(inventories.containsKey(teamName.toLowerCase())) return false;
         Inventory inv = Bukkit.createInventory(null, 54, loadoutName + ":" + teamName.toLowerCase());
         inventories.put(teamName.toLowerCase(), inv);
         player.openInventory(inv);
+        return true;
     }
 	
     public boolean editInventory(Player player, String teamName) {

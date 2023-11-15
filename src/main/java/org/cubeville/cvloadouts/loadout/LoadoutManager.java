@@ -48,7 +48,7 @@ public class LoadoutManager implements ConfigurationSerializable {
 		
         return true;
     }
-	
+
     public boolean removeLoadout(String title) {
         if (loadouts.containsKey(title.toLowerCase())) {
             loadouts.remove(title.toLowerCase());

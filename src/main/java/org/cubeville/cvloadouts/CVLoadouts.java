@@ -8,6 +8,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffect;
 
 import org.cubeville.commons.commands.CommandParser;
 
@@ -35,7 +36,8 @@ public class CVLoadouts extends JavaPlugin {
 
         ConfigurationSerialization.registerClass(LoadoutContainer.class, "LoadoutContainer");
         ConfigurationSerialization.registerClass(LoadoutManager.class, "LoadoutManager");
-
+        ConfigurationSerialization.registerClass(PotionEffect.class, "PotionEffect");
+        
         loadoutManager = (LoadoutManager) getConfig().get("LoadoutManager");
         if(loadoutManager == null) loadoutManager = new LoadoutManager();
         loadoutManager.setManager(this);
