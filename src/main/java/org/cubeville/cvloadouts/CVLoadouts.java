@@ -36,8 +36,7 @@ public class CVLoadouts extends JavaPlugin {
 
         ConfigurationSerialization.registerClass(LoadoutContainer.class, "LoadoutContainer");
         ConfigurationSerialization.registerClass(LoadoutManager.class, "LoadoutManager");
-        ConfigurationSerialization.registerClass(PotionEffect.class, "PotionEffect");
-        
+
         loadoutManager = (LoadoutManager) getConfig().get("LoadoutManager");
         if(loadoutManager == null) loadoutManager = new LoadoutManager();
         loadoutManager.setManager(this);
